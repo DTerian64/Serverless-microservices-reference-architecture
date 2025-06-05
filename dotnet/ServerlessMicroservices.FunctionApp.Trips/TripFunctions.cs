@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.EventGrid;
+using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Extensions.SignalRService;
 using Microsoft.Extensions.Logging;
@@ -235,7 +236,7 @@ namespace ServerlessMicroservices.FunctionApp.Trips
             {
                 var error = $"ProcessTripExternalizations2SignalR failed: {e.Message}";
                 log.LogError(error);
-                throw e;
+                //throw e;
             }
         }
 
@@ -272,7 +273,7 @@ namespace ServerlessMicroservices.FunctionApp.Trips
             {
                 var error = $"ProcessTripExternalizations2PowerBI failed: {e.Message}";
                 log.LogError(error);
-                throw e;
+                //throw e;
             }
         }
 

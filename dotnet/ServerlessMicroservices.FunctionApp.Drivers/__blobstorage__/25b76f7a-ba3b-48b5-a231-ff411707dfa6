@@ -1,0 +1,106 @@
+{
+  "masterKey": {
+    "name": "master",
+    "value": "4Aj4pEYIeHKbcwA74JdI3VnCkQvVWaOnzRCJWrO7gHTEAzFu9pEX1w==",
+    "encrypted": false
+  },
+  "functionKeys": [
+    {
+      "name": "default",
+      "value": "4inwLLW3rECi7iMXA7Gj5NEpy5_pc8MMIeOlcS-vw2B-AzFuBtznBA==",
+      "encrypted": false
+    }
+  ],
+  "systemKeys": [],
+  "hostName": "localhost:7071",
+  "instanceId": "000000000000000000000000D62BE350",
+  "source": "runtime",
+  "decryptionKeyId": ""
+}{
+  "masterKey": {
+    "name": "master",
+    "value": "4Aj4pEYIeHKbcwA74JdI3VnCkQvVWaOnzRCJWrO7gHTEAzFu9pEX1w==",
+    "encrypted": false
+  },
+  "functionKeys": [
+    {
+      "name": "default",
+      "value": "4inwLLW3rECi7iMXA7Gj5NEpy5_pc8MMIeOlcS-vw2B-AzFuBtznBA==",
+      "encrypted": false
+    }
+  ],
+  "systemKeys": [
+    {
+      "name": "eventgrid_extension",
+      "value": "ywxy_hv2HFk2yha_WbNLVZnTA68hc1K8rZ6uU_M__uFxAzFu6-w1Iw==",
+      "encrypted": false
+    }
+  ],
+  "hostName": "localhost:7071",
+  "instanceId": "000000000000000000000000D62BE350",
+  "source": "runtime",
+  "decryptionKeyId": ""
+}{
+  "masterKey": {
+    "name": "master",
+    "value": "4Aj4pEYIeHKbcwA74JdI3VnCkQvVWaOnzRCJWrO7gHTEAzFu9pEX1w==",
+    "encrypted": false
+  },
+  "functionKeys": [
+    {
+      "name": "default",
+      "value": "4inwLLW3rECi7iMXA7Gj5NEpy5_pc8MMIeOlcS-vw2B-AzFuBtznBA==",
+      "encrypted": false
+    }
+  ],
+  "systemKeys": [
+    {
+      "name": "eventgrid_extension",
+      "value": "ywxy_hv2HFk2yha_WbNLVZnTA68hc1K8rZ6uU_M__uFxAzFu6-w1Iw==",
+      "encrypted": false
+    },
+    {
+      "name": "signalr_extension",
+      "value": "WM_hDsNnT0kqFe9Lza_w0k-BXvyMNGjXpFuKeqyVbak1AzFuFMV9bQ==",
+      "encrypted": false
+    }
+  ],
+  "hostName": "localhost:7071",
+  "instanceId": "000000000000000000000000D62BE350",
+  "source": "runtime",
+  "decryptionKeyId": ""
+}{
+  "masterKey": {
+    "name": "master",
+    "value": "4Aj4pEYIeHKbcwA74JdI3VnCkQvVWaOnzRCJWrO7gHTEAzFu9pEX1w==",
+    "encrypted": false
+  },
+  "functionKeys": [
+    {
+      "name": "default",
+      "value": "4inwLLW3rECi7iMXA7Gj5NEpy5_pc8MMIeOlcS-vw2B-AzFuBtznBA==",
+      "encrypted": false
+    }
+  ],
+  "systemKeys": [
+    {
+      "name": "eventgrid_extension",
+      "value": "ywxy_hv2HFk2yha_WbNLVZnTA68hc1K8rZ6uU_M__uFxAzFu6-w1Iw==",
+      "encrypted": false
+    },
+    {
+      "name": "signalr_extension",
+      "value": "WM_hDsNnT0kqFe9Lza_w0k-BXvyMNGjXpFuKeqyVbak1AzFuFMV9bQ==",
+      "encrypted": false
+    },
+    {
+      "name": "blobs_extension",
+      "value": "vNpVBNfwRYAt8iruo0fJw120IsBv84OpmDXdRGqOqWShAzFuD0nw4Q==",
+      "encrypted": false
+    }
+  ],
+  "hostName": "localhost:7071",
+  "instanceId": "000000000000000000000000D62BE350",
+  "source": "runtime",
+  "decryptionKeyId": ""
+}

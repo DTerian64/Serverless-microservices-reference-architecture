@@ -8,6 +8,14 @@
       "port": 5858,
       "protocol": "inspector",
       "preLaunchTask": "runFunctionsHost"
+    },
+    {
+      "name": "Attach to Node Functions",
+      "type": "node",
+      "request": "attach",
+      "restart": true,
+      "port": 9229,
+      "preLaunchTask": "func: host start"
     }
   ]
 }

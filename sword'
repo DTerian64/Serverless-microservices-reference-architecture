@@ -1,0 +1,363 @@
+[33mcommit 908eaf5377fbeb1a8b373209cb3f2821d3299ccb[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: Dterian64 <dterian64@outlook.com>
+Date:   Thu Jun 5 15:30:52 2025 -0700
+
+    Initial commit from Azure sample
+
+[1mdiff --git a/.vscode/launch.json b/.vscode/launch.json[m
+[1mindex a053d23..f513f01 100644[m
+[1m--- a/.vscode/launch.json[m
+[1m+++ b/.vscode/launch.json[m
+[36m@@ -1,14 +1,11 @@[m
+ {[m
+[31m-    // Use IntelliSense to learn about possible attributes.[m
+[31m-    // Hover to view descriptions of existing attributes.[m
+[31m-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387[m
+[31m-    "version": "0.2.0",[m
+[31m-    "configurations": [[m
+[31m-        {[m
+[31m-            "type": "node",[m
+[31m-            "request": "launch",[m
+[31m-            "name": "Launch Program",[m
+[31m-            "program": "${file}"[m
+[31m-        }[m
+[31m-    ][m
+[31m-}[m
+\ No newline at end of file[m
+[32m+[m[32m  "version": "0.2.0",[m
+[32m+[m[32m  "configurations": [[m
+[32m+[m[32m    {[m
+[32m+[m[32m      "name": "Attach to Azure Functions",[m
+[32m+[m[32m      "type": "coreclr",[m
+[32m+[m[32m      "request": "attach",[m
+[32m+[m[32m      "processId": "${command:pickProcess}"[m
+[32m+[m[32m    }[m
+[32m+[m[32m  ][m
+[32m+[m[32m}[m
+[1mdiff --git a/dotnet/ServerlessMicroservices.FunctionApp.Drivers/ServerlessMicroservices.FunctionApp.Drivers.csproj b/dotnet/ServerlessMicroservices.FunctionApp.Drivers/ServerlessMicroservices.FunctionApp.Drivers.csproj[m
+[1mindex ba768bd..7413713 100644[m
+[1m--- a/dotnet/ServerlessMicroservices.FunctionApp.Drivers/ServerlessMicroservices.FunctionApp.Drivers.csproj[m
+[1m+++ b/dotnet/ServerlessMicroservices.FunctionApp.Drivers/ServerlessMicroservices.FunctionApp.Drivers.csproj[m
+[36m@@ -1,6 +1,6 @@[m
+ <Project Sdk="Microsoft.NET.Sdk">[m
+   <PropertyGroup>[m
+[31m-   <TargetFramework>net6.0</TargetFramework>[m
+[32m+[m[32m   <TargetFramework>net8.0</TargetFramework>[m
+    <AzureFunctionsVersion>v4</AzureFunctionsVersion>[m
+    <_FunctionsSkipCleanOutput>true</_FunctionsSkipCleanOutput>[m
+   </PropertyGroup>[m
+[1mdiff --git a/dotnet/ServerlessMicroservices.FunctionApp.Drivers/ServerlessMicroservices.FunctionApp.Drivers.sln b/dotnet/ServerlessMicroservices.FunctionApp.Drivers/ServerlessMicroservices.FunctionApp.Drivers.sln[m
+[1mnew file mode 100644[m
+[1mindex 0000000..0c9d9b0[m
+[1m--- /dev/null[m
+[1m+++ b/dotnet/ServerlessMicroservices.FunctionApp.Drivers/ServerlessMicroservices.FunctionApp.Drivers.sln[m
+[36m@@ -0,0 +1,24 @@[m
+[32m+[m[32mMicrosoft Visual Studio Solution File, Format Version 12.00[m
+[32m+[m[32m# Visual Studio Version 17[m
+[32m+[m[32mVisualStudioVersion = 17.5.2.0[m
+[32m+[m[32mMinimumVisualStudioVersion = 10.0.40219.1[m
+[32m+[m[32mProject("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerlessMicroservices.FunctionApp.Drivers", "ServerlessMicroservices.FunctionApp.Drivers.csproj", "{5A53E14B-1384-F3EB-E2EB-5CE19E0FE4C6}"[m
+[32m+[m[32mEndProject[m
+[32m+[m[32mGlobal[m
+[32m+[m	[32mGlobalSection(SolutionConfigurationPlatforms) = preSolution[m
+[32m+[m		[32mDebug|Any CPU = Debug|Any CPU[m
+[32m+[m		[32mRelease|Any CPU = Release|Any CPU[m
+[32m+[m	[32mEndGlobalSection[m
+[32m+[m	[32mGlobalSection(ProjectConfigurationPlatforms) = postSolution[m
+[32m+[m		[32m{5A53E14B-1384-F3EB-E2EB-5CE19E0FE4C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU[m
+[32m+[m		[32m{5A53E14B-1384-F3EB-E2EB-5CE19E0FE4C6}.Debug|Any CPU.Build.0 = Debug|Any CPU[m
+[32m+[m		[32m{5A53E14B-1384-F3EB-E2EB-5CE19E0FE4C6}.Release|Any CPU.ActiveCfg = Release|Any CPU[m
+[32m+[m		[32m{5A53E14B-1384-F3EB-E2EB-5CE19E0FE4C6}.Release|Any CPU.Build.0 = Release|Any CPU[m
+[32m+[m	[32mEndGlobalSection[m
+[32m+[m	[32mGlobalSection(SolutionProperties) = preSolution[m
+[32m+[m		[32mHideSolutionNode = FALSE[m
+[32m+[m	[32mEndGlobalSection[m
+[32m+[m	[32mGlobalSection(ExtensibilityGlobals) = postSolution[m
+[32m+[m		[32mSolutionGuid = {A6902DAB-DF48-4342-B126-77BDBCC41252}[m
+[32m+[m	[32mEndGlobalSection[m
+[32m+[m[32mEndGlobal[m
+[1mdiff --git a/dotnet/ServerlessMicroservices.FunctionApp.Drivers/__blobstorage__/1d5911e5-d3b4-4b22-9ce8-6d0eb7169736 b/dotnet/ServerlessMicroservices.FunctionApp.Drivers/__blobstorage__/1d5911e5-d3b4-4b22-9ce8-6d0eb7169736[m
+[1mnew file mode 100644[m
+[1mindex 0000000..e69de29[m
+[1mdiff --git a/dotnet/ServerlessMicroservices.FunctionApp.Drivers/__blobstorage__/25b76f7a-ba3b-48b5-a231-ff411707dfa6 b/dotnet/ServerlessMicroservices.FunctionApp.Drivers/__blobstorage__/25b76f7a-ba3b-48b5-a231-ff411707dfa6[m
+[1mnew file mode 100644[m
+[1mindex 0000000..c249de5[m
+[1m--- /dev/null[m
+[1m+++ b/dotnet/ServerlessMicroservices.FunctionApp.Drivers/__blobstorage__/25b76f7a-ba3b-48b5-a231-ff411707dfa6[m
+[36m@@ -0,0 +1,106 @@[m
+[32m+[m[32m{[m
+[32m+[m[32m  "masterKey": {[m
+[32m+[m[32m    "name": "master",[m
+[32m+[m[32m    "value": "4Aj4pEYIeHKbcwA74JdI3VnCkQvVWaOnzRCJWrO7gHTEAzFu9pEX1w==",[m
+[32m+[m[32m    "encrypted": false[m
+[32m+[m[32m  },[m
+[32m+[m[32m  "functionKeys": [[m
+[32m+[m[32m    {[m
+[32m+[m[32m      "name": "default",[m
+[32m+[m[32m      "value": "4inwLLW3rECi7iMXA7Gj5NEpy5_pc8MMIeOlcS-vw2B-AzFuBtznBA==",[m
+[32m+[m[32m      "encrypted": false[m
+[32m+[m[32m    }[m
+[32m+[m[32m  ],[m
+[32m+[m[32m  "systemKeys": [],[m
+[32m+[m[32m  "hostName": "localhost:7071",[m
+[32m+[m[32m  "instanceId": "000000000000000000000000D62BE350",[m
+[32m+[m[32m  "source": "runtime",[m
+[32m+[m[32m  "decryptionKeyId": ""[m
+[32m+[m[32m}{[m
+[32m+[m[32m  "masterKey": {[m
+[32m+[m[32m    "name": "master",[m
+[32m+[m[32m    "value": "4Aj4pEYIeHKbcwA74JdI3VnCkQvVWaOnzRCJWrO7gHTEAzFu9pEX1w==",[m
+[32m+[m[32m    "encrypted": false[m
+[32m+[m[32m  },[m
+[32m+[m[32m  "functionKeys": [[m
+[32m+[m[32m    {[m
+[32m+[m[32m      "name": "default",[m
+[32m+[m[32m      "value": "4inwLLW3rECi7iMXA7Gj5NEpy5_pc8MMIeOlcS-vw2B-AzFuBtznBA==",[m
+[32m+[m[32m      "encrypted": false[m
+[32m+[m[32m    }[m
+[32m+[m[32m  ],[m
+[32m+[m[32m  "systemKeys": [[m
+[32m+[m[32m    {[m
+[32m+[m[32m      "name": "eventgrid_extension",[m
+[32m+[m[32m      "value": "ywxy_hv2HFk2yha_WbNLVZnTA68hc1K8rZ6uU_M__uFxAzFu6-w1Iw==",[m
+[32m+[m[32m      "encrypted": false[m
+[32m+[m[32m    }[m
+[32m+[m[32m  ],[m
+[32m+[m[32m  "hostName": "localhost:7071",[m
+[32m+[m[32m  "instanceId": "000000000000000000000000D62BE350",[m
+[32m+[m[32m  "source": "runtime",[m
+[32m+[m[32m  "decryptionKeyId": ""[m
+[32m+[m[32m}{[m
+[32m+[m[32m  "masterKey": {[m
+[32m+[m[32m    "name": "master",[m
+[32m+[m[32m    "value": "4Aj4pEYIeHKbcwA74JdI3VnCkQvVWaOnzRCJWrO7gHTEAzFu9pEX1w==",[m
+[32m+[m[32m    "encrypted": false[m
+[32m+[m[32m  },[m
+[32m+[m[32m  "functionKeys": [[m
+[32m+[m[32m    {[m
+[32m+[m[32m      "name": "default",[m
+[32m+[m[32m      "value": "4inwLLW3rECi7iMXA7Gj5NEpy5_pc8MMIeOlcS-vw2B-AzFuBtznBA==",[m
+[32m+[m[32m      "encrypted": false[m
+[32m+[m[32m    }[m
+[32m+[m[32m  ],[m
+[32m+[m[32m  "systemKeys": [[m
+[32m+[m[32m    {[m
+[32m+[m[32m      "name": "eventgrid_extension",[m
+[32m+[m[32m      "value": "ywxy_hv2HFk2yha_WbNLVZnTA68hc1K8rZ6uU_M__uFxAzFu6-w1Iw==",[m
+[32m+[m[32m      "encrypted": false[m
+[32m+[m[32m    },[m
+[32m+[m[32m    {[m
+[32m+[m[32m      "name": "signalr_extension",[m
+[32m+[m[32m      "value": "WM_hDsNnT0kqFe9Lza_w0k-BXvyMNGjXpFuKeqyVbak1AzFuFMV9bQ==",[m
+[32m+[m[32m      "encrypted": false[m
+[32m+[m[32m    }[m
+[32m+[m[32m  ],[m
+[32m+[m[32m  "hostName": "localhost:7071",[m
+[32m+[m[32m  "instanceId": "000000000000000000000000D62BE350",[m
+[32m+[m[32m  "source": "runtime",[m
+[32m+[m[32m  "decryptionKeyId": ""[m
+[32m+[m[32m}{[m
+[32m+[m[32m  "masterKey": {[m
+[32m+[m[32m    "name": "master",[m
+[32m+[m[32m    "value": "4Aj4pEYIeHKbcwA74JdI3VnCkQvVWaOnzRCJWrO7gHTEAzFu9pEX1w==",[m
+[32m+[m[32m    "encrypted": false[m
+[32m+[m[32m  },[m
+[32m+[m[32m  "functionKeys": [[m
+[32m+[m[32m    {[m
+[32m+[m[32m      "name": "default",[m
+[32m+[m[32m      "value": "4inwLLW3rECi7iMXA7Gj5NEpy5_pc8MMIeOlcS-vw2B-AzFuBtznBA==",[m
+[32m+[m[32m      "encrypted": false[m
+[32m+[m[32m    }[m
+[32m+[m[32m  ],[m
+[32m+[m[32m  "systemKeys": [[m
+[32m+[m[32m    {[m
+[32m+[m[32m      "name": "eventgrid_extension",[m
+[32m+[m[32m      "value": "ywxy_hv2HFk2yha_WbNLVZnTA68hc1K8rZ6uU_M__uFxAzFu6-w1Iw==",[m
+[32m+[m[32m      "encrypted": false[m
+[32m+[m[32m    },[m
+[32m+[m[32m    {[m
+[32m+[m[32m      "name": "signalr_extension",[m
+[32m+[m[32m      "value": "WM_hDsNnT0kqFe9Lza_w0k-BXvyMNGjXpFuKeqyVbak1AzFuFMV9bQ==",[m
+[32m+[m[32m      "encrypted": false[m
+[32m+[m[32m    },[m
+[32m+[m[32m    {[m
+[32m+[m[32m      "name": "blobs_extension",[m
+[32m+[m[32m      "value": "vNpVBNfwRYAt8iruo0fJw120IsBv84OpmDXdRGqOqWShAzFuD0nw4Q==",[m
+[32m+[m[32m      "encrypted": false[m
+[32m+[m[32m    }[m
+[32m+[m[32m  ],[m
+[32m+[m[32m  "hostName": "localhost:7071",[m
+[32m+[m[32m  "instanceId": "000000000000000000000000D62BE350",[m
+[32m+[m[32m  "source": "runtime",[m
+[32m+[m[32m  "decryptionKeyId": ""[m
+[32m+[m[32m}[m
+\ No newline at end of file[m
+[1mdiff --git a/dotnet/ServerlessMicroservices.FunctionApp.Drivers/__blobstorage__/AzuriteConfig b/dotnet/ServerlessMicroservices.FunctionApp.Drivers/__blobstorage__/AzuriteConfig[m
+[1mnew file mode 100644[m
+[1mindex 0000000..339247a[m
+[1m--- /dev/null[m
+[1m+++ b/dotnet/ServerlessMicroservices.FunctionApp.Drivers/__blobstorage__/AzuriteConfig[m
+[36m@@ -0,0 +1 @@[m
+[32m+[m[32m{"instaceID":"a5a69c72-6e46-4ac2-919c-6251a93ef63c"}[m
+\ No newline at end of file[m
+[1mdiff --git a/dotnet/ServerlessMicroservices.FunctionApp.Orchestrators/ServerlessMicroservices.FunctionApp.Orchestrators.csproj b/dotnet/ServerlessMicroservices.FunctionApp.Orchestrators/ServerlessMicroservices.FunctionApp.Orchestrators.csproj[m
+[1mindex 51c6e05..e895632 100644[m
+[1m--- a/dotnet/ServerlessMicroservices.FunctionApp.Orchestrators/ServerlessMicroservices.FunctionApp.Orchestrators.csproj[m
+[1m+++ b/dotnet/ServerlessMicroservices.FunctionApp.Orchestrators/ServerlessMicroservices.FunctionApp.Orchestrators.csproj[m
+[36m@@ -1,6 +1,6 @@[m
+ ﻿<Project Sdk="Microsoft.NET.Sdk">[m
+   <PropertyGroup>[m
+[31m-   <TargetFramework>net6.0</TargetFramework>[m
+[32m+[m[32m   <TargetFramework>net8.0</TargetFramework>[m
+    <AzureFunctionsVersion>v4</AzureFunctionsVersion>[m
+    <_FunctionsSkipCleanOutput>true</_FunctionsSkipCleanOutput>[m
+   </PropertyGroup>[m
+[1mdiff --git a/dotnet/ServerlessMicroservices.FunctionApp.Orchestrators/ServerlessMicroservices.FunctionApp.Orchestrators.sln b/dotnet/ServerlessMicroservices.FunctionApp.Orchestrators/ServerlessMicroservices.FunctionApp.Orchestrators.sln[m
+[1mnew file mode 100644[m
+[1mindex 0000000..dce866e[m
+[1m--- /dev/null[m
+[1m+++ b/dotnet/ServerlessMicroservices.FunctionApp.Orchestrators/ServerlessMicroservices.FunctionApp.Orchestrators.sln[m
+[36m@@ -0,0 +1,24 @@[m
+[32m+[m[32mMicrosoft Visual Studio Solution File, Format Version 12.00[m
+[32m+[m[32m# Visual Studio Version 17[m
+[32m+[m[32mVisualStudioVersion = 17.5.2.0[m
+[32m+[m[32mMinimumVisualStudioVersion = 10.0.40219.1[m
+[32m+[m[32mProject("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerlessMicroservices.FunctionApp.Orchestrators", "ServerlessMicroservices.FunctionApp.Orchestrators.csproj", "{73F620A7-4ACC-C6EA-C72D-5100DCDA3051}"[m
+[32m+[m[32mEndProject[m
+[32m+[m[32mGlobal[m
+[32m+[m	[32mGlobalSection(SolutionConfigurationPlatforms) = preSolution[m
+[32m+[m		[32mDebug|Any CPU = Debug|Any CPU[m
+[32m+[m		[32mRelease|Any CPU = Release|Any CPU[m
+[32m+[m	[32mEndGlobalSection[m
+[32m+[m	[32mGlobalSection(ProjectConfigurationPlatforms) = postSolution[m
+[32m+[m		[32m{73F620A7-4ACC-C6EA-C72D-5100DCDA3051}.Debug|Any CPU.ActiveCfg = Debug|Any CPU[m
+[32m+[m		[32m{73F620A7-4ACC-C6EA-C72D-5100DCDA3051}.Debug|Any CPU.Build.0 = Debug|Any CPU[m
+[32m+[m		[32m{73F620A7-4ACC-C6EA-C72D-5100DCDA3051}.Release|Any CPU.ActiveCfg = Release|Any CPU[m
+[32m+[m		[32m{73F620A7-4ACC-C6EA-C72D-5100DCDA3051}.Release|Any CPU.Build.0 = Release|Any CPU[m
+[32m+[m	[32mEndGlobalSection[m
+[32m+[m	[32mGlobalSection(SolutionProperties) = preSolution[m
+[32m+[m		[32mHideSolutionNode = FALSE[m
+[32m+[m	[32mEndGlobalSection[m
+[32m+[m	[32mGlobalSection(ExtensibilityGlobals) = postSolution[m
+[32m+[m		[32mSolutionGuid = {B88F51D9-34D0-43C2-95AD-061E5FAAA7C0}[m
+[32m+[m	[32mEndGlobalSection[m
+[32m+[m[32mEndGlobal[m
+[1mdiff --git a/dotnet/ServerlessMicroservices.FunctionApp.Passengers/ServerlessMicroservices.FunctionApp.Passengers.csproj b/dotnet/ServerlessMicroservices.FunctionApp.Passengers/ServerlessMicroservices.FunctionApp.Passengers.csproj[m
+[1mindex 5c6b869..0324f20 100644[m
+[1m--- a/dotnet/ServerlessMicroservices.FunctionApp.Passengers/ServerlessMicroservices.FunctionApp.Passengers.csproj[m
+[1m+++ b/dotnet/ServerlessMicroservices.FunctionApp.Passengers/ServerlessMicroservices.FunctionApp.Passengers.csproj[m
+[36m@@ -1,6 +1,6 @@[m
+ <Project Sdk="Microsoft.NET.Sdk">[m
+   <PropertyGroup>[m
+[31m-   <TargetFramework>net6.0</TargetFramework>[m
+[32m+[m[32m   <TargetFramework>net8.0</TargetFramework>[m
+    <AzureFunctionsVersion>v4</AzureFunctionsVersion>[m
+    <_FunctionsSkipCleanOutput>true</_FunctionsSkipCleanOutput>[m
+   </PropertyGroup>[m
+[1mdiff --git a/dotnet/ServerlessMicroservices.FunctionApp.Passengers/ServerlessMicroservices.FunctionApp.Passengers.sln b/dotnet/ServerlessMicroservices.FunctionApp.Passengers/ServerlessMicroservices.FunctionApp.Passengers.sln[m
+[1mnew file mode 100644[m
+[1mindex 0000000..6e3cf2d[m
+[1m--- /dev/null[m
+[1m+++ b/dotnet/ServerlessMicroservices.FunctionApp.Passengers/ServerlessMicroservices.FunctionApp.Passengers.sln[m
+[36m@@ -0,0 +1,24 @@[m
+[32m+[m[32mMicrosoft Visual Studio Solution File, Format Version 12.00[m
+[32m+[m[32m# Visual Studio Version 17[m
+[32m+[m[32mVisualStudioVersion = 17.5.2.0[m
+[32m+[m[32mMinimumVisualStudioVersion = 10.0.40219.1[m
+[32m+[m[32mProject("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerlessMicroservices.FunctionApp.Passengers", "ServerlessMicroservices.FunctionApp.Passengers.csproj", "{F819E347-FC8F-67F1-1891-4B1D44B9D3B6}"[m
+[32m+[m[32mEndProject[m
+[32m+[m[32mGlobal[m
+[32m+[m	[32mGlobalSection(SolutionConfigurationPlatforms) = preSolution[m
+[32m+[m		[32mDebug|Any CPU = Debug|Any CPU[m
+[32m+[m		[32mRelease|Any CPU = Release|Any CPU[m
+[32m+[m	[32mEndGlobalSection[m
+[32m+[m	[32mGlobalSection(ProjectConfigurationPlatforms) = postSolution[m
+[32m+[m		[32m{F819E347-FC8F-67F1-1891-4B1D44B9D3B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU[m
+[32m+[m		[32m{F819E347-FC8F-67F1-1891-4B1D44B9D3B6}.Debug|Any CPU.Build.0 = Debug|Any CPU[m
+[32m+[m		[32m{F819E347-FC8F-67F1-1891-4B1D44B9D3B6}.Release|Any CPU.ActiveCfg = Release|Any CPU[m
+[32m+[m		[32m{F819E347-FC8F-67F1-1891-4B1D44B9D3B6}.Release|Any CPU.Build.0 = Release|Any CPU[m
+[32m+[m	[32mEndGlobalSection[m
+[32m+[m	[32mGlobalSection(SolutionProperties) = preSolution[m
+[32m+[m		[32mHideSolutionNode = FALSE[m
+[32m+[m	[32mEndGlobalSection[m
+[32m+[m	[32mGlobalSection(ExtensibilityGlobals) = postSolution[m
+[32m+[m		[32mSolutionGuid = {8917DA69-F12F-45C9-8DF6-FD11317E01CB}[m
+[32m+[m	[32mEndGlobalSection[m
+[32m+[m[32mEndGlobal[m
+[1mdiff --git a/dotnet/ServerlessMicroservices.FunctionApp.Passengers/__blobstorage__/00ead900-d20e-4fd7-9639-6afe428fd18e b/dotnet/ServerlessMicroservices.FunctionApp.Passengers/__blobstorage__/00ead900-d20e-4fd7-9639-6afe428fd18e[m
+[1mnew file mode 100644[m
+[1mindex 0000000..e69de29[m
+[1mdiff --git a/dotnet/ServerlessMicroservices.FunctionApp.Passengers/__blobstorage__/AzuriteConfig b/dotnet/ServerlessMicroservices.FunctionApp.Passengers/__blobstorage__/AzuriteConfig[m
+[1mnew file mode 100644[m
+[1mindex 0000000..54364e0[m
+[1m--- /dev/null[m
+[1m+++ b/dotnet/ServerlessMicroservices.FunctionApp.Passengers/__blobstorage__/AzuriteConfig[m
+[36m@@ -0,0 +1 @@[m
+[32m+[m[32m{"instaceID":"cd6fc078-7eb9-4454-850d-a7d781ca091b"}[m
+\ No newline at end of file[m
+[1mdiff --git a/dotnet/ServerlessMicroservices.FunctionApp.Passengers/host.json b/dotnet/ServerlessMicroservices.FunctionApp.Passengers/host.json[m
+[1mindex 81e35b7..33a1d54 100644[m
+[1m--- a/dotnet/ServerlessMicroservices.FunctionApp.Passengers/host.json[m
+[1m+++ b/dotnet/ServerlessMicroservices.FunctionApp.Passengers/host.json[m
+[36m@@ -1,3 +1,9 @@[m
+ {[m
+[31m-  "version": "2.0"[m
+[32m+[m[32m  "version": "2.0",[m
+[32m+[m[32m   "logging": {[m
+[32m+[m[32m    "fileLoggingMode": "always",[m
+[32m+[m[32m    "logLevel": {[m
+[32m+[m[32m      "default": "Information"[m
+[32m+[m[32m    }[m
+[32m+[m[32m  }[m
+ }[m
+\ No newline at end of file[m
+[1mdiff --git a/dotnet/ServerlessMicroservices.FunctionApp.Trips/AzuriteConfig b/dotnet/ServerlessMicroservices.FunctionApp.Trips/AzuriteConfig[m
+[1mnew file mode 100644[m
+[1mindex 0000000..b9960e8[m
+[1m--- /dev/null[m
+[1m+++ b/dotnet/ServerlessMicroservices.FunctionApp.Trips/AzuriteConfig[m
+[36m@@ -0,0 +1 @@[m
+[32m+[m[32m{"instaceID":"8a7c0f0e-1c7c-47d8-ab55-20aea85a3090"}[m
+\ No newline at end of file[m
+[1mdiff --git a/dotnet/ServerlessMicroservices.FunctionApp.Trips/ServerlessMicroservices.FunctionApp.Trips.csproj b/dotnet/ServerlessMicroservices.FunctionApp.Trips/ServerlessMicroservices.FunctionApp.Trips.csproj[m
+[1mindex 549d578..d3631be 100644[m
+[1m--- a/dotnet/ServerlessMicroservices.FunctionApp.Trips/ServerlessMicroservices.FunctionApp.Trips.csproj[m
+[1m+++ b/dotnet/ServerlessMicroservices.FunctionApp.Trips/ServerlessMicroservices.FunctionApp.Trips.csproj[m
+[36m@@ -1,6 +1,6 @@[m
+ ﻿<Project Sdk="Microsoft.NET.Sdk">[m
+   <PropertyGroup>[m
+[31m-   <TargetFramework>net6.0</TargetFramework>[m
+[32m+[m[32m   <TargetFramework>net8.0</TargetFramework>[m
+    <AzureFunctionsVersion>v4</AzureFunctionsVersion>[m
+    <_FunctionsSkipCleanOutput>true</_FunctionsSkipCleanOutput>[m
+   </PropertyGroup>[m
+[1mdiff --git a/dotnet/ServerlessMicroservices.FunctionApp.Trips/ServerlessMicroservices.FunctionApp.Trips.sln b/dotnet/ServerlessMicroservices.FunctionApp.Trips/ServerlessMicroservices.FunctionApp.Trips.sln[m
+[1mnew file mode 100644[m
+[1mindex 0000000..cd1c11b[m
+[1m--- /dev/null[m
+[1m+++ b/dotnet/ServerlessMicroservices.FunctionApp.Trips/ServerlessMicroservices.FunctionApp.Trips.sln[m
+[36m@@ -0,0 +1,24 @@[m
+[32m+[m[32mMicrosoft Visual Studio Solution File, Format Version 12.00[m
+[32m+[m[32m# Visual Studio Version 17[m
+[32m+[m[32mVisualStudioVersion = 17.5.2.0[m
+[32m+[m[32mMinimumVisualStudioVersion = 10.0.40219.1[m
+[32m+[m[32mProject("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerlessMicroservices.FunctionApp.Trips", "ServerlessMicroservices.FunctionApp.Trips.csproj", "{5C3757CA-B485-13CA-459E-42E02E6D2A88}"[m
+[32m+[m[32mEndProject[m
+[32m+[m[32mGlobal[m
+[32m+[m	[32mGlobalSection(SolutionConfigurationPlatforms) = preSolution[m
+[32m+[m		[32mDebug|Any CPU = Debug|Any CPU[m
+[32m+[m		[32mRelease|Any CPU = Release|Any CPU[m
+[32m+[m	[32mEndGlobalSection[m
+[32m+[m	[32mGlobalSection(ProjectConfigurationPlatforms) = postSolution[m
+[32m+[m		[32m{5C3757CA-B485-13CA-459E-42E02E6D2A88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU[m
+[32m+[m		[32m{5C3757CA-B485-13CA-459E-42E02E6D2A88}.Debug|Any CPU.Build.0 = Debug|Any CPU[m
+[32m+[m		[32m{5C3757CA-B485-13CA-459E-42E02E6D2A88}.Release|Any CPU.ActiveCfg = Release|Any CPU[m
+[32m+[m		[32m{5C3757CA-B485-13CA-459E-42E02E6D2A88}.Release|Any CPU.Build.0 = Release|Any CPU[m
+[32m+[m	[32mEndGlobalSection[m
+[32m+[m	[32mGlobalSection(SolutionProperties) = preSolution[m
+[32m+[m		[32mHideSolutionNode = FALSE[m
+[32m+[m	[32mEndGlobalSection[m
+[32m+[m	[32mGlobalSection(ExtensibilityGlobals) = postSolution[m
+[32m+[m		[32mSolutionGuid = {2B22FF47-D5DC-4EEA-A23D-3A763510E10C}[m
+[32m+[m	[32mEndGlobalSection[m
+[

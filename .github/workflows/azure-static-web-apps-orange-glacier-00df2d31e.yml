@@ -19,8 +19,8 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install dependencies
-        run: npm install
+      - name: Install dependencies safely
+        run: npm install --legacy-peer-deps
         working-directory: web/Serverless-Microsservices-Web2
 
       - name: Build app with Vite

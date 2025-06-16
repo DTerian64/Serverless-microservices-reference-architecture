@@ -17,7 +17,10 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 20
+
+      - name: Globally install Vite
+        run: npm install -g vite
 
       - name: Install dependencies safely
         run: npm install --legacy-peer-deps
@@ -30,8 +33,12 @@ jobs:
           cat node_modules/.bin/vite || echo "cannot read vite"
         working-directory: web/Serverless-Microsservices-Web2
 
-      - name: Build app with Vite
-        run: npx vite build
+      - name: Set executable permissions for Vite
+        run: chmod +x node_modules/.bin/vite
+        working-directory: web/Serverless-Microsservices-Web2
+
+      - name: Build app with globally installed Vite
+        run: vite build
         working-directory: web/Serverless-Microsservices-Web2
 
       - name: Deploy to Azure Static Web App

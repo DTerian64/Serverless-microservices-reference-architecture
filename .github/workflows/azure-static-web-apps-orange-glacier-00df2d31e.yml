@@ -23,8 +23,11 @@ jobs:
         run: npm install --legacy-peer-deps
         working-directory: web/Serverless-Microsservices-Web2
       
-      - name: Check Vite binary permissions
-        run: ls -l node_modules/.bin && cat node_modules/.bin/vite || echo "vite binary not found"
+      - name: Check Vite CLI binary
+        run: |
+          ls -l node_modules/.bin
+          file node_modules/.bin/vite || echo "vite not found"
+          cat node_modules/.bin/vite || echo "cannot read vite"
         working-directory: web/Serverless-Microsservices-Web2
 
       - name: Build app with Vite

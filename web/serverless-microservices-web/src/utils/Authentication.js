@@ -10,6 +10,15 @@ let _tokenRequest;
 
 export class Authentication {
   constructor() {
+    // Check if authentication is disabled
+    if (!window.authEnabled) {
+      console.log('Authentication is disabled via window.authEnabled flag');
+      this._authDisabled = true;
+      return;
+    }
+
+    this._authDisabled = false;
+
     // The window values below should by set by public/js/settings.js
     const msalConfig = {
       auth: {
@@ -60,6 +69,15 @@ export class Authentication {
   }
 
   getUser() {
+    if (this._authDisabled) {
+      // Return a mock user when auth is disabled
+      return {
+        homeAccountId: 'mock-user-id',
+        username: 'mock@example.com',
+        name: 'Mock User'
+      };
+    }
+
     // if _accountId is not null, then the user is already logged in
     let user = null;
     if (_accountId) {
@@ -73,6 +91,11 @@ export class Authentication {
   }
 
   getAccessToken() {
+    if (this._authDisabled) {
+      // Return a mock token when auth is disabled
+      return Promise.resolve('mock-access-token');
+    }
+
     _tokenRequest.account = this._publicClientApplication.getAccountByHomeId(_accountId);
     return this._publicClientApplication.acquireTokenSilent(_tokenRequest).then(
       response => {
@@ -92,6 +115,16 @@ export class Authentication {
   }
 
   login() {
+    if (this._authDisabled) {
+      console.log('Login bypassed - authentication disabled');
+      // Return a mock successful login
+      return Promise.resolve({
+        homeAccountId: 'mock-user-id',
+        username: 'mock@example.com',
+        name: 'Mock User'
+      });
+    }
+
     return this._publicClientApplication.loginPopup(_loginRequest)
     .then(
       response => {
@@ -105,6 +138,12 @@ export class Authentication {
   }
 
   logout() {
+    if (this._authDisabled) {
+      console.log('Logout bypassed - authentication disabled');
+      window.location.replace('/');
+      return Promise.resolve();
+    }
+
     const logoutRequest = {
       account: _accountId,
       redirectUri: window.logoutURI
@@ -115,10 +154,19 @@ export class Authentication {
   }
 
   isAuthenticated() {
+    if (this._authDisabled) {
+      // Always return true when auth is disabled
+      return true;
+    }
     return !!this.getUser();
   }
 
   getAccessTokenOrLoginWithPopup() {
+    if (this._authDisabled) {
+      // Return mock token when auth is disabled
+      return Promise.resolve('mock-access-token');
+    }
+
     _tokenRequest.account = this._publicClientApplication.getAccountByHomeId(_accountId);
     return this._publicClientApplication
       .acquireTokenSilent(_tokenRequest)
@@ -129,6 +177,13 @@ export class Authentication {
 }
 
 export function requireAuth(to, from, next) {
+  // Check if authentication is globally disabled
+  if (!window.authEnabled) {
+    console.log('Authentication check bypassed - auth disabled');
+    next(); // Continue without auth check
+    return;
+  }
+
   const auth = new Authentication();
   if (!auth.isAuthenticated()) {
     next({
@@ -141,9 +196,19 @@ export function requireAuth(to, from, next) {
 }
 
 export function getToken() {
+  if (!window.authEnabled) {
+    return 'mock-access-token';
+  }
   return localStorage.getItem(ACCESS_TOKEN);
 }
 
 export function getUserDetails() {
+  if (!window.authEnabled) {
+    return {
+      id: 'mock-user-id',
+      username: 'mock@example.com',
+      name: 'Mock User'
+    };
+  }
   return JSON.parse(localStorage.getItem(USER_DETAILS));
 }

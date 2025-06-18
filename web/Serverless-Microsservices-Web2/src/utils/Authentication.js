@@ -1,192 +1,97 @@
-import { LogLevel, PublicClientApplication } from '@azure/msal-browser'
+import { LogLevel, PublicClientApplication } from '@azure/msal-browser';
 
-const ACCESS_TOKEN = 'rideshare_access_token'
-const USER_DETAILS = 'rideshare_user_details'
-
-let _accountId = null
-let _loginRequest
-let _tokenRequest
-
-export class Authentication {
+class Authentication {
   constructor() {
-    // Check if authentication is disabled via .env flag
-    const authEnabled = import.meta.env.VITE_AUTH_ENABLED === 'true'
-    if (!authEnabled) {
-      console.log('Authentication is disabled via VITE_AUTH_ENABLED flag')
-      this._authDisabled = true
-      return
+    if (!import.meta.env.VITE_AUTH_ENABLED || import.meta.env.VITE_AUTH_ENABLED === "false") {
+      console.log('Authentication is disabled');
+      this._authDisabled = true;
+      return;
     }
+    console.log('Starting Authentication constructor');
+    this._authDisabled = false;
 
-    this._authDisabled = false
-
-    const msalConfig = {
+    this._publicClientApplication = new PublicClientApplication({
       auth: {
         clientId: import.meta.env.VITE_AUTH_CLIENT_ID,
         authority: import.meta.env.VITE_AUTH_AUTHORITY,
         knownAuthorities: [import.meta.env.VITE_KNOWN_AUTHORITY],
         redirectUri: import.meta.env.VITE_REDIRECT_URI
       },
-      cache: {
-        cacheLocation: 'sessionStorage',
-        storeAuthStateInCookie: false
-      },
       system: {
         loggerOptions: {
           loggerCallback: (level, message, containsPii) => {
-            if (containsPii) return
-            switch (level) {
-              case LogLevel.Error:
-                console.error(message)
-                break
-              case LogLevel.Info:
-                console.info(message)
-                break
-              case LogLevel.Verbose:
-                console.debug(message)
-                break
-              case LogLevel.Warning:
-                console.warn(message)
-                break
-            }
-          }
-        }
+            if (!containsPii) console.log(message);
+          },
+          logLevel: LogLevel.Info,
+        },
       }
-    }
+    });
 
-    this._publicClientApplication = new PublicClientApplication(msalConfig)
-
-    const loginScopes = import.meta.env.VITE_LOGIN_SCOPES.split(',')
-    const apiScopes = import.meta.env.VITE_API_SCOPES.split(',')
-
-    _loginRequest = { scopes: loginScopes }
-    _tokenRequest = {
-      scopes: apiScopes,
-      forceRefresh: true
-    }
+    // 🔴 THIS IS CRITICAL
+    this._initializePromise = this._publicClientApplication.initialize();
   }
 
-  getUser() {
-    if (this._authDisabled) {
-      return {
-        homeAccountId: 'mock-user-id',
-        username: 'mock@example.com',
-        name: 'Mock User'
-      }
-    }
+  async login() {
+    if (this._authDisabled) return;
 
-    return _accountId
-      ? this._publicClientApplication.getAccountByHomeId(_accountId)
-      : null
+    await this._initializePromise;  // ✅ Wait for MSAL to initialize
+    const loginRequest = {
+      scopes: import.meta.env.VITE_LOGIN_SCOPES.split(','),
+    };
+
+    const response = await this._publicClientApplication.loginPopup(loginRequest);
+   // const response = await this._publicClientApplication.loginRedirect(loginRequest);
+    
+    this._accountId = response.account.homeAccountId;
+    return response.account;
   }
+  async logout() {
+    if (this._authDisabled) return;
 
-  getError() {
-    return this._error
-  }
-
-  getAccessToken() {
-    if (this._authDisabled) {
-      return Promise.resolve('mock-access-token')
-    }
-
-    _tokenRequest.account = this._publicClientApplication.getAccountByHomeId(_accountId)
-
-    return this._publicClientApplication.acquireTokenSilent(_tokenRequest).then(
-      response => response.accessToken,
-      () => this._publicClientApplication.acquireTokenPopup(_tokenRequest).then(
-        response => response.accessToken,
-        err => console.error(err)
-      )
-    )
-  }
-
-  login() {
-    if (this._authDisabled) {
-      console.log('Login bypassed - authentication disabled')
-      return Promise.resolve({
-        homeAccountId: 'mock-user-id',
-        username: 'mock@example.com',
-        name: 'Mock User'
-      })
-    }
-
-    return this._publicClientApplication.loginPopup(_loginRequest).then(
-      response => {
-        _accountId = response.account.homeAccountId
-        return response.account
-      },
-      () => null
-    )
-  }
-
-  logout() {
-    if (this._authDisabled) {
-      console.log('Logout bypassed - authentication disabled')
-      window.location.replace('/')
-      return Promise.resolve()
-    }
-
+    await this._initializePromise;  // ✅ Ensure MSAL is initialized
     const logoutRequest = {
-      account: _accountId,
-      redirectUri: import.meta.env.VITE_REDIRECT_URI
+      account: this._publicClientApplication.getAllAccounts()[0],
+      postLogoutRedirectUri: import.meta.env.VITE_REDIRECT_URI,
+    };
+
+    await this._publicClientApplication.logout(logoutRequest);
+  }
+  async isAuthenticated() {
+  if (this._authDisabled) return false;
+
+  await this._initializePromise;
+
+  const accounts = this._publicClientApplication.getAllAccounts();
+  return accounts && accounts.length > 0;
+  }
+
+  async getAccessToken() {
+    if (this._authDisabled) return 'mock-token';
+
+    await this._initializePromise;  // ✅ Ensure MSAL is initialized
+
+    const account = this._publicClientApplication.getAllAccounts()[0];
+    if (!account) return null;
+
+    const tokenRequest = {
+      account,
+      scopes: import.meta.env.VITE_API_SCOPES.split(','),
+    };
+
+    try {
+      const response = await this._publicClientApplication.acquireTokenSilent(tokenRequest);
+      return response.accessToken;
+    } catch {
+      const response = await this._publicClientApplication.acquireTokenPopup(tokenRequest);
+      return response.accessToken;
     }
-
-    return this._publicClientApplication.logoutPopup(logoutRequest).then(() => {
-      window.location.replace('/')
-    })
   }
 
-  isAuthenticated() {
-    return this._authDisabled || !!this.getUser()
-  }
+  
 
-  getAccessTokenOrLoginWithPopup() {
-    if (this._authDisabled) {
-      return Promise.resolve('mock-access-token')
-    }
-
-    _tokenRequest.account = this._publicClientApplication.getAccountByHomeId(_accountId)
-
-    return this._publicClientApplication
-      .acquireTokenSilent(_tokenRequest)
-      .catch(() => this.login())
-  }
+  // repeat await this._initializePromise in any other method that calls MSAL APIs
 }
 
-// Vue router guard
-export function requireAuth(to, from, next) {
-  const authEnabled = import.meta.env.VITE_AUTH_ENABLED === 'true'
-
-  if (!authEnabled) {
-    console.log('Authentication check bypassed - auth disabled')
-    next()
-    return
-  }
-
-  const auth = new Authentication()
-  if (!auth.isAuthenticated()) {
-    next({
-      path: '/no-auth',
-      query: { redirect: to.fullPath }
-    })
-  } else {
-    next()
-  }
-}
-
-export function getToken() {
-  const authEnabled = import.meta.env.VITE_AUTH_ENABLED === 'true'
-  return authEnabled
-    ? localStorage.getItem(ACCESS_TOKEN)
-    : 'mock-access-token'
-}
-
-export function getUserDetails() {
-  const authEnabled = import.meta.env.VITE_AUTH_ENABLED === 'true'
-  return authEnabled
-    ? JSON.parse(localStorage.getItem(USER_DETAILS))
-    : {
-        id: 'mock-user-id',
-        username: 'mock@example.com',
-        name: 'Mock User'
-      }
-}
+// NEW: Create a singleton instance
+const auth = new Authentication();
+export { auth };

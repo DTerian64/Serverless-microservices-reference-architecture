@@ -1,6 +1,5 @@
 import axios from 'axios'
-import { Authentication } from '@/utils/Authentication'
-const auth = new Authentication()
+import { auth } from '@/utils/Authentication';
 
 const validStatuses = [200, 201, 202, 203, 204, 300, 301, 302, 303, 304]
 

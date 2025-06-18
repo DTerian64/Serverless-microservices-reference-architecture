@@ -213,22 +213,23 @@
 
 <script>
 import { createNamespacedHelpers } from "vuex";
+import { auth } from '@/utils/Authentication'; // ✅ correct singleton import
+
 const {
   mapGetters: commonGetters,
   mapActions: commonActions
 } = createNamespacedHelpers("common");
-import { getDrivers, getDriver } from "@/api/drivers";
-import { getPassenger } from "@/api/passengers";
-import { Authentication } from "@/utils/Authentication";
+
 const {
   mapGetters: tripGetters,
   mapActions: tripActions
 } = createNamespacedHelpers("trips");
 
-const auth = new Authentication();
+import { getDrivers, getDriver } from "@/api/drivers";
+import { getPassenger } from "@/api/passengers";
 
 export default {
-  name: "Trip",
+  name: "Trip",  
   props: ["authenticated"],
   data() {
     return {

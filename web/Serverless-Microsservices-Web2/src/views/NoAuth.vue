@@ -28,8 +28,8 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex';
-import { Authentication } from '@/utils/Authentication';
-const auth = new Authentication();
+import { auth } from '@/utils/Authentication';
+
 const { login, logout, getUser, getAccessToken, authenticated } = auth;
 const { mapActions: commonActions } = createNamespacedHelpers('common');
 

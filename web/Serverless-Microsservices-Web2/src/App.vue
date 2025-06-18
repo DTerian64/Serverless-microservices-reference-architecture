@@ -37,12 +37,29 @@
 import { onMounted, ref, computed } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter, RouterView, RouterLink } from 'vue-router';
-import { Authentication } from '@/utils/Authentication';
+import { auth } from '@/utils/Authentication';
 
-const auth = new Authentication();
-const authenticated = ref(auth.authenticated);
+const authenticated = ref(false)
+
 const store = useStore();
 const router = useRouter();
+
+onMounted(async () => {
+  console.log('onMounted called');
+ // Wait for MSAL initialization if needed
+  if (auth._initializePromise) {
+    await auth._initializePromise;
+  }
+
+  authenticated.value = await auth.isAuthenticated()
+  if (authenticated.value) {
+    const user = await auth.getUser();
+    store.dispatch('common/setUser', user || null);
+  } else {
+    store.dispatch('common/setUser', null);
+  }
+});
+
 
 const user = computed(() => store.getters['common/user']);
 
@@ -66,10 +83,7 @@ function logout() {
   }
 }
 
-onMounted(() => {
-  const u = auth.getUser();
-  store.dispatch('common/setUser', u || null);
-});
+
 </script>
 
 <style>

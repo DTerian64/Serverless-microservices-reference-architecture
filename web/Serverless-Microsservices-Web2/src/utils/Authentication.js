@@ -9,7 +9,7 @@ class Authentication {
     }
     console.log('Starting Authentication constructor');
     this._authDisabled = false;
-
+console.log(import.meta.env.VITE_REDIRECT_URI)
     this._publicClientApplication = new PublicClientApplication({
       auth: {
         clientId: import.meta.env.VITE_AUTH_CLIENT_ID,

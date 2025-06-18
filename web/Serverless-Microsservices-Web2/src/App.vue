@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app">   
     <nav v-scroll="handleScroll" class="navbar navbar-light navbar-expand-lg fixed-top" id="mainNav">
       <div class="container">
         <RouterLink :to="{ name: 'home' }" class="navbar-brand">Rideshare by Relecloud</RouterLink>

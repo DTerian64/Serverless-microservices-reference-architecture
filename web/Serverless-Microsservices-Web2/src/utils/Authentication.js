@@ -43,6 +43,7 @@ console.log(import.meta.env.VITE_REDIRECT_URI)
    // const response = await this._publicClientApplication.loginRedirect(loginRequest);
     
     this._accountId = response.account.homeAccountId;
+    console.log('Login successful:', response.account);
     return response.account;
   }
   async logout() {

@@ -1,33 +1,43 @@
 <template>
   <div id="app">   
     <nav v-scroll="handleScroll" class="navbar navbar-light navbar-expand-lg fixed-top" id="mainNav">
-      <div class="container">
-        <RouterLink :to="{ name: 'home' }" class="navbar-brand">Rideshare by Relecloud</RouterLink>
-        <button class="navbar-toggler float-right" data-toggle="collapse"
-          data-target="#navbarResponsive" aria-controls="navbarResponsive"
-          aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars"></i>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="nav navbar-nav ml-auto">
-            <li class="nav-item" role="presentation">
-              <RouterLink :to="{ name: 'trip' }" class="nav-link">My Trip</RouterLink>
-            </li>
-            <li class="nav-item" role="presentation">
-              <RouterLink :to="{ name: 'passengers' }" class="nav-link">Passengers</RouterLink>
-            </li>
-            <li class="nav-item" role="presentation">
-              <RouterLink :to="{ name: 'drivers' }" class="nav-link">Drivers</RouterLink>
-            </li>
-            <li class="nav-item" role="presentation" v-if="user">
-              <a href="javascript:void(0)" class="nav-link" @click="logout">Logout</a>
-            </li>
-            <li class="nav-item" role="presentation" v-else>
-              <a href="javascript:void(0)" class="nav-link" @click="login">Login</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+      <div class="container px-4 px-lg-5">
+        <a class="navbar-brand" href="#page-top">Rideshare by Relecloud</a>
+         <span v-if="user"> | Welcome, {{ user.name || user.username  }}</span>
+
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="nav navbar-nav ml-auto">
+        <li class="nav-item" role="presentation">
+          <RouterLink :to="{ name: 'trip' }" class="nav-link">My Trip</RouterLink>
+        </li>
+        <li class="nav-item" role="presentation">
+          <RouterLink :to="{ name: 'passengers' }" class="nav-link">Passengers</RouterLink>
+        </li>
+        <li class="nav-item" role="presentation">
+          <RouterLink :to="{ name: 'drivers' }" class="nav-link">Drivers</RouterLink>
+        </li>
+        <li class="nav-item" role="presentation" v-if="user">
+          <a href="javascript:void(0)" class="nav-link" @click="logout">Logout</a>
+        </li>			
+			  <li class="nav-item" role="presentation" v-else>
+          <a href="javascript:void(0)" class="nav-link" @click="login">Login</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
 
     <RouterView :authenticated="authenticated" />
   </div>

@@ -5,6 +5,7 @@ const apiKey = import.meta.env.VITE_API_KEY || '' // fallback to empty string if
 
 // GET methods
 export function getPassengers() {
+  console.log(`Fetching passengers from ${baseUrl}/passengers`);
   return get(`${baseUrl}/passengers`, {}, apiKey).then(checkResponse);
 }
 

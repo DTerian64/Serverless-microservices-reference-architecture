@@ -153,6 +153,7 @@ export default {
     }
   },
   mounted() {
+    console.log('Passengers component mounted - retrieving passengers ');
     this.retrievePassengers();
   }
 };

@@ -3,7 +3,7 @@
     <nav v-scroll="handleScroll" class="navbar navbar-light navbar-expand-lg fixed-top" id="mainNav">
       <div class="container px-4 px-lg-5">
         <a class="navbar-brand" href="#page-top">Rideshare by Relecloud</a>
-         <span v-if="user"> | Welcome, {{ user.name || user.username  }}</span>
+         <span v-if="user"> | Welcome, {{ user.username || user.name  }}</span>
 
         <button
           class="navbar-toggler"

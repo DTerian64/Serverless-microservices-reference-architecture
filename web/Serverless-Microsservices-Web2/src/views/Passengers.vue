@@ -93,7 +93,6 @@
 </template>
 
 <script>
-console.log('user.value is', user?.value);
 import { createNamespacedHelpers } from 'vuex';
 const { mapGetters: commonGetters } = createNamespacedHelpers('common');
 const {

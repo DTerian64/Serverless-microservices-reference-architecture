@@ -15,7 +15,7 @@ console.log(import.meta.env.VITE_REDIRECT_URI)
         clientId: import.meta.env.VITE_AUTH_CLIENT_ID,
         authority: import.meta.env.VITE_AUTH_AUTHORITY,
         knownAuthorities: [import.meta.env.VITE_KNOWN_AUTHORITY],
-        redirectUri: import.meta.env.VITE_REDIRECT_URI
+        redirectUri: "https://orange-glacier-00df2d31e.2.azurestaticapps.net" //import.meta.env.VITE_REDIRECT_URI
       },
       system: {
         loggerOptions: {

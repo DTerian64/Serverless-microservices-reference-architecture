@@ -38,18 +38,18 @@
                             :current-page="currentPage"
                             :per-page="perPage"
                             >
-                            <template slot="code" slot-scope="row"><strong>{{row.value}}</strong></template>
-                            <template slot="firstName" slot-scope="row">{{row.value}}</template>
-                            <template slot="lastName" slot-scope="row">{{row.value}}</template>
-                            <template slot="latitude" slot-scope="row">{{row.value}}</template>
-                            <template slot="longitude" slot-scope="row">{{row.value}}</template>
-                            <template slot="isAcceptingRides" slot-scope="row">{{row.value?'Yes':'No'}}</template>
-                            <template slot="actions" slot-scope="row">
-                                <!-- We use @click.stop here to prevent a 'row-clicked' event from also happening -->
-                                <b-button size="sm" @click.stop="selectDriver(row.item)" class="mr-1">
+                          <template #cell(code)="data">{{ data.item.code }}</template> 
+                          <template #cell(firstName)="data">{{ data.item.firstName }}</template> 
+                          <template #cell(lastName)="data">{{ data.item.lastName }}</template> 
+                          <template #cell(latitude)="data">{{ data.item.latitude }}</template> 
+                          <template #cell(longitude)="data">{{ data.item.longitude }}</template> 
+                          <template #cell(isAcceptingRides)="data">{{ data.item.isAcceptingRides?'Yes':'No' }}</template> 
+                          <template #cell(actions)="data">
+                              <!-- We use @click.stop here to prevent a 'row-clicked' event from also happening -->
+                              <b-button size="sm" @click.stop="selectDriver(data.item)" class="mr-1">
                                 Select
-                                </b-button>
-                            </template>
+                              </b-button>
+                          </template>
                         </b-table>
                     </div>
                 </div>

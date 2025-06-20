@@ -1,9 +1,13 @@
 import { createStore } from 'vuex'
 import passengers from '@/store/passengers';
+import drivers from '@/store/drivers';
+import trips from '@/store/trips';
 
 const store = createStore({
   modules: {
     passengers,
+    drivers,
+    trips,
     common: {
       namespaced: true,
       state: () => ({ user: null, notificationSystem: null }),

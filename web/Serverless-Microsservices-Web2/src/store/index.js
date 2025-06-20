@@ -1,7 +1,9 @@
 import { createStore } from 'vuex'
+import passengers from '@/store/passengers';
 
 const store = createStore({
   modules: {
+    passengers,
     common: {
       namespaced: true,
       state: () => ({ user: null, notificationSystem: null }),

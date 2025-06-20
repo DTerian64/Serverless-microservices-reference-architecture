@@ -11,7 +11,15 @@
             </div>
         </div>
     </header>
-    <BlockUI message="Please wait..." :html="html" v-show="contentLoading"></BlockUI>
+    <Loading
+      :active="contentLoading"
+      :is-full-page="false"
+      :can-cancel="false"
+      :color="'#000'"
+      :loader="'spinner'"
+      :opacity="0.5"
+      message="Please wait..."
+    />   
     <section id="features" class="features" style="padding-top:60px;">
         <div class="container">
             <div class="section-heading text-center" style="margin-bottom:50px;">
@@ -30,14 +38,14 @@
                             :current-page="currentPage"
                             :per-page="perPage"
                             >
-                            <template slot="givenName" slot-scope="row">{{row.value}}</template>
-                            <template slot="surame" slot-scope="row">{{row.value}}</template>
-                            <template slot="email" slot-scope="row">{{row.value}}</template>
-                            <template slot="state" slot-scope="row">{{row.value}}</template>
-                            <template slot="postalCode" slot-scope="row">{{row.value}}</template>
-                            <template slot="actions" slot-scope="row">
+                            <template #cell(givenName)="data">{{ data.item.givenName }}</template>                            
+                            <template #cell(surame)="data">{{ data.item.surname }}</template>
+                            <template #cell(email)="data">{{ data.item.email }}</template>
+                            <template #cell(state)="data">{{ data.item.state }}</template>
+                            <template #cell(postalCode)="data">{{ data.item.postalCode }}</template>                            
+                            <template #cell(actions)="data">
                                 <!-- We use @click.stop here to prevent a 'row-clicked' event from also happening -->
-                                <b-button size="sm" @click.stop="selectPassenger(row.item)" class="mr-1">
+                                <b-button size="sm" @click.stop="selectPassenger(data.item)" class="mr-1">
                                 Select
                                 </b-button>
                             </template>
@@ -100,7 +108,13 @@ const {
   mapActions: passengerActions
 } = createNamespacedHelpers('passengers');
 
+import Loading from 'vue3-loading-overlay';
+import 'vue3-loading-overlay/dist/vue3-loading-overlay.css';
+
 export default {
+   components: {
+    Loading
+  },
   name: 'Passengers',
   props: ['authenticated'],
   data() {

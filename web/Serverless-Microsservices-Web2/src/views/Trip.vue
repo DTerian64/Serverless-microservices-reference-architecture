@@ -16,7 +16,15 @@
         </div>
       </div>
     </header>
-    <BlockUI message="Please wait..." :html="html" v-show="contentLoading"></BlockUI>
+     <Loading
+      :active="contentLoading"
+      :is-full-page="false"
+      :can-cancel="false"
+      :color="'#000'"
+      :loader="'spinner'"
+      :opacity="0.5"
+      message="Please wait..."
+    /> 
     <section id="features" class="features" style="padding-top:60px;">
       <div class="container">
         <div class="section-heading text-center" style="margin-bottom:50px;">

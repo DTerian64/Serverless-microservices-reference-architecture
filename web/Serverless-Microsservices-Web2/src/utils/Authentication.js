@@ -9,13 +9,15 @@ class Authentication {
     }
     console.log('Starting Authentication constructor');
     this._authDisabled = false;
-console.log(import.meta.env.VITE_REDIRECT_URI)
     this._publicClientApplication = new PublicClientApplication({
       auth: {
         clientId: import.meta.env.VITE_AUTH_CLIENT_ID,
         authority: import.meta.env.VITE_AUTH_AUTHORITY,
         knownAuthorities: [import.meta.env.VITE_KNOWN_AUTHORITY],
-        redirectUri: "https://orange-glacier-00df2d31e.2.azurestaticapps.net" //import.meta.env.VITE_REDIRECT_URI
+        redirectUri: 
+        import.meta.env.MODE === 'development'
+        ? 'http://localhost:5173'
+        : 'https://orange-glacier-00df2d31e.2.azurestaticapps.net' //import.meta.env.VITE_REDIRECT_URI
       },
       system: {
         loggerOptions: {
@@ -86,6 +88,18 @@ console.log(import.meta.env.VITE_REDIRECT_URI)
       const response = await this._publicClientApplication.acquireTokenPopup(tokenRequest);
       return response.accessToken;
     }
+  }
+
+  getUser() {
+    if (this._authDisabled) return null;
+
+   // await this._initializePromise;  // ✅ Ensure MSAL is initialized
+
+    const accounts = this._publicClientApplication.getAllAccounts();
+    if (accounts && accounts.length > 0) {
+      return accounts[0];
+    }
+    return null;
   }
 
   

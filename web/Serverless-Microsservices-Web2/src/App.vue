@@ -2,7 +2,7 @@
   <div id="app">   
     <nav v-scroll="handleScroll" class="navbar navbar-light navbar-expand-lg fixed-top" id="mainNav">
       <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" href="#page-top">Rideshare by Relecloud</a>
+        <router-link class="navbar-brand" to="/">Rideshare by Relecloud</router-link>        
          <span v-if="user"> | Welcome, {{ user.username || user.name  }}</span>
 
         <button

@@ -5,16 +5,30 @@ import SignalRTrips from './components/SignalRTrips.vue';
 import router from './router';
 import store from './store';
 
-import * as BootstrapVueNext from 'bootstrap-vue-next';
+import {
+  BTable,
+  BButton,
+  BModal,
+  BFormRow,
+  BCol,
+  BContainer,
+} from 'bootstrap-vue-next';
+
+import 'bootstrap-vue-next/dist/bootstrap-vue-next.css';
+
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap-vue-next/dist/bootstrap-vue-next.css';
 
 import 'vue3-toastify/dist/index.css';
 import Vue3Toastify, { toast } from 'vue3-toastify';
 
-// BlockUI is not Vue 3 compatible; consider alternatives
-// import BlockUI from 'vue-blockui'; ❌ Not compatible with Vue 3
+import Loading from 'vue3-loading-overlay';
+import 'vue3-loading-overlay/dist/vue3-loading-overlay.css';
+export default {
+  components: {
+    Loading
+  }
+}
 
 const app = createApp(App);
 
@@ -22,14 +36,21 @@ const app = createApp(App);
 app.component('AppFooter', AppFooter);
 app.component('SignalRTrips', SignalRTrips);
 
+app.component('BTable', BTable);
+app.component('BButton', BButton);
+app.component('BModal', BModal);
+app.component('BFormRow', BFormRow);
+app.component('BCol', BCol);
+app.component('BContainer', BContainer);
+
 // Register plugins
 app.use(store);
 app.use(router);
-app.use(BootstrapVueNext);
 app.use(Vue3Toastify, {
   autoClose: 3000,
   position: 'top-right',
 });
+//app.use(BootstrapVueNext);
 
 // Add custom directive
 app.directive('scroll', {

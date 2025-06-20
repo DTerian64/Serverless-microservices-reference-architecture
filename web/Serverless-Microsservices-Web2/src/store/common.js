@@ -87,7 +87,8 @@ export default {
 
   actions: {
     setUser ({ commit }, value) {
-      commit('user', value)
+    console.log(`Common.js setUser: ${value}`)
+    commit('user', value)
     }
   }
 }
